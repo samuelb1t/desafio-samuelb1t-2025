@@ -22,26 +22,26 @@ class AbrigoAnimais {
       let resultado;
 
       if (
-        this.ordemBrinquedos(brinquedosPessoa1, animal) &&
-        this.ordemBrinquedos(brinquedosPessoa2, animal)
+        this.podeAdotar(brinquedosPessoa1, animal, animaisP1) &&
+        this.podeAdotar(brinquedosPessoa2, animal, animaisP2)
       ) {
         resultado = `${animal} - abrigo`;
-      } else if (this.ordemBrinquedos(brinquedosPessoa1, animal)) {
+      } else if (this.podeAdotar(brinquedosPessoa1, animal, animaisP1)) {
         if (animaisP1.length < 3) {
           animaisP1.push(animal);
           resultado = `${animal} - pessoa 1`;
           if (animais_tipos[animal] === "gato") {
-            this.removeBrinquedosGato(brinquedosPessoa1, animal);
+            this.removeBrinquedosGato(brinquedosPessoa1, animal, animaisP1);
           }
         } else {
           resultado = `${animal} - abrigo`;
         }
-      } else if (this.ordemBrinquedos(brinquedosPessoa2, animal)) {
+      } else if (this.podeAdotar(brinquedosPessoa2, animal, animaisP2)) {
         if (animaisP2.length < 3) {
           animaisP2.push(animal);
           resultado = `${animal} - pessoa 2`;
           if (animais_tipos[animal] === "gato") {
-            this.removeBrinquedosGato(brinquedosPessoa2, animal);
+            this.removeBrinquedosGato(brinquedosPessoa2, animal, animaisP2);
           }
         } else {
           resultado = `${animal} - abrigo`;
@@ -103,8 +103,21 @@ class AbrigoAnimais {
 
   // Essa função confere se a pessoa tem a ordem dos brinquedos necessário para
   // poder adotar o animal, retorna true se sim e false se não
-  ordemBrinquedos(brinquedosPessoa, animal) {
+  podeAdotar(brinquedosPessoa, animal, animaisPessoa) {
     const brinquedosAnimal = animais_brinquedos[animal];
+
+    if (animal == "Loco") {
+      let todos = true;
+      for (let brinquedo of brinquedosAnimal) {
+        if (!brinquedosPessoa.includes(brinquedo)) todos = false;
+      }
+
+      if (todos) {
+        if (animaisPessoa > 0) return true;
+      }
+
+      return false;
+    }
 
     let i = 0;
     const fim = brinquedosAnimal.length;

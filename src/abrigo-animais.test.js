@@ -75,4 +75,16 @@ describe("Abrigo de Animais", () => {
     expect(resultado.lista.length).toBe(2);
     expect(resultado.erro).toBeFalsy();
   });
+
+  test('Deve tratar Loco sem companhia (não pode ser adotado)', () => {
+  const resultado = new AbrigoAnimais().encontraPessoas(
+    'SKATE,RATO', 
+    'CAIXA,NOVELO', 
+    'Loco' // Apenas Loco, sem companhia
+  );
+  
+  expect(resultado.lista[0]).toBe('Loco - abrigo'); // Sem companhia, fica no abrigo
+  expect(resultado.lista.length).toBe(1);
+  expect(resultado.erro).toBeFalsy();
+});
 });
